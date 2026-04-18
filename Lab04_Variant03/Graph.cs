@@ -84,6 +84,42 @@ namespace Lab04_Variant03
 
             return order;
         }
+
+        //  DFS — обход в глубину (итеративный, через стек)
+        /// <summary>
+        /// Обход в глубину от стартовой вершины.
+        /// Возвращает список вершин в порядке посещения.
+        /// </summary>
+        public List<string> DFS(string start)
+        {
+            var visited = new HashSet<string>();
+            var order = new List<string>();
+            var stack = new Stack<string>();
+
+            stack.Push(start);
+
+            while (stack.Count > 0)
+            {
+                string current = stack.Pop();
+
+                if (visited.Contains(current))
+                    continue;
+
+                visited.Add(current);
+                order.Add(current);
+
+                // Добавляем соседей в обратном порядке, чтобы обход шёл
+                // в том же порядке, что и рекурсивный DFS
+                var neighbors = GetNeighbors(current).ToList();
+                for (int i = neighbors.Count - 1; i >= 0; i--)
+                {
+                    if (!visited.Contains(neighbors[i].neighbor))
+                        stack.Push(neighbors[i].neighbor);
+                }
+            }
+
+            return order;
+        }
         //  Загрузка графа из файла
         /// <summary>
         /// Загружает граф из текстового файла.
