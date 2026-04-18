@@ -120,6 +120,81 @@ namespace Lab04_Variant03
 
             return order;
         }
+        // Достижима ли вершина B из A 
+
+        /// <summary>
+        /// Проверяет, достижима ли вершина <paramref name="target"/> из
+        /// вершины <paramref name="source"/> с помощью BFS.
+        /// </summary>
+        public bool IsReachable(string source, string target)
+        {
+            if (source == target) return true;
+
+            var visited = new HashSet<string>();
+            var queue = new Queue<string>();
+
+            visited.Add(source);
+            queue.Enqueue(source);
+
+            while (queue.Count > 0)
+            {
+                string current = queue.Dequeue();
+                foreach (var (neighbor, _) in GetNeighbors(current))
+                {
+                    if (neighbor == target) return true;
+                    if (!visited.Contains(neighbor))
+                    {
+                        visited.Add(neighbor);
+                        queue.Enqueue(neighbor);
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        //  Компоненты связности
+        /// <summary>
+        /// Возвращает список компонент связности.
+        /// Каждая компонента — список вершин, входящих в неё.
+        /// </summary>
+        public List<List<string>> GetConnectedComponents()
+        {
+            var visited = new HashSet<string>();
+            var components = new List<List<string>>();
+
+            foreach (string vertex in _vertices)
+            {
+                if (!visited.Contains(vertex))
+                {
+                    // BFS для одной компоненты
+                    var component = new List<string>();
+                    var queue = new Queue<string>();
+
+                    visited.Add(vertex);
+                    queue.Enqueue(vertex);
+
+                    while (queue.Count > 0)
+                    {
+                        string current = queue.Dequeue();
+                        component.Add(current);
+
+                        foreach (var (neighbor, _) in GetNeighbors(current))
+                        {
+                            if (!visited.Contains(neighbor))
+                            {
+                                visited.Add(neighbor);
+                                queue.Enqueue(neighbor);
+                            }
+                        }
+                    }
+
+                    components.Add(component);
+                }
+            }
+
+            return components;
+        }
         //  Загрузка графа из файла
         /// <summary>
         /// Загружает граф из текстового файла.
