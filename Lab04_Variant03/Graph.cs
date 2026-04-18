@@ -51,3 +51,44 @@ namespace Lab04_Variant03
                 return list;
             return Enumerable.Empty<(string, double)>();
         }
+
+        //  Загрузка графа из файла
+        /// <summary>
+        /// Загружает граф из текстового файла.
+        /// Формат: секция VERTICES (по одной вершине на строку),
+        /// секция EDGES (Вершина1;Вершина2;Вес).
+        /// Строки, начинающиеся с '#', игнорируются.
+        /// </summary>
+        public static Graph LoadFromFile(string path)
+        {
+            var graph = new Graph();
+            string section = "";
+
+            foreach (string rawLine in File.ReadAllLines(path))
+            {
+                string line = rawLine.Trim();
+                if (string.IsNullOrEmpty(line) || line.StartsWith("#"))
+                    continue;
+
+                if (line == "VERTICES") { section = "V"; continue; }
+                if (line == "EDGES") { section = "E"; continue; }
+
+                if (section == "V")
+                {
+                    graph.AddVertex(line);
+                }
+                else if (section == "E")
+                {
+                    string[] parts = line.Split(';');
+                    if (parts.Length < 3) continue;
+
+                    string from = parts[0].Trim();
+                    string to = parts[1].Trim();
+                    double weight = double.Parse(parts[2].Trim(),
+                                        System.Globalization.CultureInfo.InvariantCulture);
+                    graph.AddEdge(from, to, weight);
+                }
+            }
+
+            return graph;
+        }
