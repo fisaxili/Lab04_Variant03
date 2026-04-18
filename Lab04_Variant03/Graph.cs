@@ -51,7 +51,39 @@ namespace Lab04_Variant03
                 return list;
             return Enumerable.Empty<(string, double)>();
         }
+        public bool ContainsVertex(string name) => _adjacency.ContainsKey(name);
 
+        //  BFS — обход в ширину
+        /// <summary>
+        /// Обход в ширину от стартовой вершины.
+        /// Возвращает список вершин в порядке посещения.
+        /// </summary>
+        public List<string> BFS(string start)
+        {
+            var visited = new HashSet<string>();
+            var order = new List<string>();
+            var queue = new Queue<string>();
+
+            visited.Add(start);
+            queue.Enqueue(start);
+
+            while (queue.Count > 0)
+            {
+                string current = queue.Dequeue();
+                order.Add(current);
+
+                foreach (var (neighbor, _) in GetNeighbors(current))
+                {
+                    if (!visited.Contains(neighbor))
+                    {
+                        visited.Add(neighbor);
+                        queue.Enqueue(neighbor);
+                    }
+                }
+            }
+
+            return order;
+        }
         //  Загрузка графа из файла
         /// <summary>
         /// Загружает граф из текстового файла.
