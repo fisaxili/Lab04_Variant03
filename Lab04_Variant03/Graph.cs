@@ -24,5 +24,30 @@ namespace Lab04_Variant03
             _adjacency = new Dictionary<string, List<(string, double)>>();
             _vertices = new List<string>();
         }
-    }
-}
+
+        /// <summary>Добавить вершину, если её ещё нет.</summary>
+        public void AddVertex(string name)
+        {
+            if (!_adjacency.ContainsKey(name))
+            {
+                _adjacency[name] = new List<(string, double)>();
+                _vertices.Add(name);
+            }
+        }
+
+        /// <summary>Добавить неориентированное ребро с весом.</summary>
+        public void AddEdge(string from, string to, double weight)
+        {
+            AddVertex(from);
+            AddVertex(to);
+            _adjacency[from].Add((to, weight));
+            _adjacency[to].Add((from, weight));
+        }
+
+        /// <summary>Получить соседей вершины.</summary>
+        public IEnumerable<(string neighbor, double weight)> GetNeighbors(string vertex)
+        {
+            if (_adjacency.TryGetValue(vertex, out var list))
+                return list;
+            return Enumerable.Empty<(string, double)>();
+        }
