@@ -106,4 +106,62 @@ namespace Lab04_Variant03
             for (int i = 0; i < order.Count; i++)
                 AppendOutput($"  {i + 1}. {order[i]}");
         }
+        // Достижимость 
 
+        private void btnReach_Click(object sender, EventArgs e)
+        {
+            if (!CheckGraphLoaded()) return;
+            if (cmbReachFrom.SelectedItem is not string from) return;
+            if (cmbReachTo.SelectedItem is not string to) return;
+
+            bool reachable = _graph!.IsReachable(from, to);
+
+            AppendOutput("");
+            AppendOutput($"═══ Достижимость ═══");
+            AppendOutput(reachable
+                ? $"✔ Вершина «{to}» ДОСТИЖИМА из «{from}»."
+                : $"✘ Вершина «{to}» НЕ достижима из «{from}».");
+        }
+
+        // Компоненты связности 
+
+        private void btnComponents_Click(object sender, EventArgs e)
+        {
+            if (!CheckGraphLoaded()) return;
+
+            var components = _graph!.GetConnectedComponents();
+
+            AppendOutput("");
+            AppendOutput($"═══ Компоненты связности: {components.Count} ═══");
+            for (int i = 0; i < components.Count; i++)
+            {
+                AppendOutput($"  Компонента {i + 1} ({components[i].Count} вершин):");
+                foreach (string v in components[i])
+                    AppendOutput($"    - {v}");
+            }
+        }
+
+        // Очистить вывод 
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            txtOutput.Clear();
+        }
+
+        // Вспомогательные методы 
+
+        private bool CheckGraphLoaded()
+        {
+            if (_graph != null) return true;
+            MessageBox.Show("Сначала загрузите файл графа.",
+                            "Граф не загружен", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return false;
+        }
+
+        private void AppendOutput(string text)
+        {
+            txtOutput.AppendText(text + Environment.NewLine);
+            txtOutput.ScrollToCaret();
+        }
+    }
+}
