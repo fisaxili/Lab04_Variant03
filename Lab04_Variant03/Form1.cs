@@ -61,6 +61,8 @@ namespace Lab04_Variant03
             cmbDijkstraSource.Items.Clear();
             cmbDijkstraFrom.Items.Clear();
             cmbDijkstraTo.Items.Clear();
+            cmbVariantFrom.Items.Clear();
+            cmbVariantTo.Items.Clear();
 
             foreach (string v in _graph.Vertices)
             {
@@ -71,6 +73,8 @@ namespace Lab04_Variant03
                 cmbDijkstraSource.Items.Add(v);
                 cmbDijkstraFrom.Items.Add(v);
                 cmbDijkstraTo.Items.Add(v);
+                cmbVariantFrom.Items.Add(v);
+                cmbVariantTo.Items.Add(v);
             }
 
             if (cmbBfsStart.Items.Count > 0)
@@ -82,6 +86,8 @@ namespace Lab04_Variant03
                 cmbDijkstraSource.SelectedIndex = 0;
                 cmbDijkstraFrom.SelectedIndex = 0;
                 cmbDijkstraTo.SelectedIndex = cmbDijkstraTo.Items.Count > 1 ? 1 : 0;
+                cmbVariantFrom.SelectedIndex = 0;
+                cmbVariantTo.SelectedIndex = cmbVariantTo.Items.Count > 1 ? 1 : 0;
             }
         }
 
@@ -220,9 +226,91 @@ namespace Lab04_Variant03
             txtOutput.ScrollToCaret();
         }
 
-        private void panelLeft_Paint(object sender, PaintEventArgs e)
-        {
+        // ─── ЛР №6: Точки сочленения ──────────────────────────────────
 
+        private void btnArticulation_Click(object sender, EventArgs e)
+        {
+            if (!CheckGraphLoaded()) return;
+
+            var points = _graph!.FindArticulationPoints();
+
+            AppendOutput("");
+            AppendOutput("═══ Точки сочленения ═══");
+
+            if (points.Count == 0)
+            {
+                AppendOutput("  Точек сочленения нет (граф двусвязен).");
+                return;
+            }
+
+            AppendOutput($"  Найдено: {points.Count}");
+            foreach (string v in points)
+                AppendOutput($"  ⚠ {v}");
+
+            AppendOutput("");
+            AppendOutput("  Интерпретация: удаление этих перекрёстков");
+            AppendOutput("  разрывает дорожную сеть на несвязные части.");
+        }
+
+        // ─── ЛР №6: МОД (алгоритм Прима) ─────────────────────────────
+
+        private void btnPrimMST_Click(object sender, EventArgs e)
+        {
+            if (!CheckGraphLoaded()) return;
+
+            var (edges, total) = _graph!.PrimMST();
+
+            AppendOutput("");
+            AppendOutput("═══ Минимальное остовное дерево (алгоритм Прима) ═══");
+
+            if (edges.Count == 0)
+            {
+                AppendOutput("  МОД не построен (граф пуст или несвязен).");
+                return;
+            }
+
+            AppendOutput($"  {"Ребро",-50} {"Вес (км)",10}");
+            AppendOutput($"  {new string('─', 62)}");
+
+            foreach (var (from, to, weight) in edges)
+                AppendOutput($"  {from} — {to,-30} {weight,8:F2} км");
+
+            AppendOutput($"  {new string('─', 62)}");
+            AppendOutput($"  Суммарный вес МОД: {total:F2} км");
+            AppendOutput("");
+            AppendOutput("  Интерпретация: минимальная дорожная инфраструктура,");
+            AppendOutput("  связывающая все перекрёстки района.");
+        }
+
+        // ─── ЛР №6: Задача варианта — кратчайший маршрут (Дейкстра) ──
+
+        private void btnVariantTask_Click(object sender, EventArgs e)
+        {
+            if (!CheckGraphLoaded()) return;
+            if (cmbVariantFrom.SelectedItem is not string from) return;
+            if (cmbVariantTo.SelectedItem is not string to) return;
+
+            var (dist, prev) = _graph!.Dijkstra(from);
+            var path = Graph.RestorePath(prev, from, to);
+
+            AppendOutput("");
+            AppendOutput($"═══ Задача варианта №3: кратчайший маршрут ═══");
+            AppendOutput($"  Из: {from}");
+            AppendOutput($"  В:  {to}");
+            AppendOutput("");
+
+            if (path.Count == 0)
+            {
+                AppendOutput("  ✘ Маршрут не существует.");
+                return;
+            }
+
+            AppendOutput($"  Маршрут ({path.Count - 1} участков):");
+            for (int i = 0; i < path.Count - 1; i++)
+                AppendOutput($"    {i + 1}. {path[i]} → {path[i + 1]}");
+
+            AppendOutput("");
+            AppendOutput($"  ✔ Итоговая длина: {dist[to]:F2} км");
         }
     }
 }
