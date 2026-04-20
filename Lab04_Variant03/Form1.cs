@@ -21,7 +21,7 @@ namespace Lab04_Variant03
             InitializeComponent();
         }
 
-        // ─── Загрузка графа ───────────────────────────────────────────
+        //   Загрузка графа     
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
@@ -38,7 +38,7 @@ namespace Lab04_Variant03
                 _graph = Graph.LoadFromFile(dlg.FileName);
                 PopulateComboBoxes();
 
-                AppendOutput($"✔ Граф загружен: {_graph.Vertices.Count} вершин.");
+                AppendOutput($" Граф загружен: {_graph.Vertices.Count} вершин.");
                 AppendOutput("Вершины:");
                 foreach (string v in _graph.Vertices)
                     AppendOutput($"  • {v}");
@@ -91,7 +91,7 @@ namespace Lab04_Variant03
             }
         }
 
-        // ─── BFS ──────────────────────────────────────────────────────
+        //   BFS        
 
         private void btnBfs_Click(object sender, EventArgs e)
         {
@@ -101,13 +101,13 @@ namespace Lab04_Variant03
             var order = _graph!.BFS(start);
 
             AppendOutput("");
-            AppendOutput($"═══ BFS от вершины «{start}» ═══");
+            AppendOutput($"BFS от вершины «{start}» ");
             AppendOutput($"Порядок посещения ({order.Count} вершин):");
             for (int i = 0; i < order.Count; i++)
                 AppendOutput($"  {i + 1}. {order[i]}");
         }
 
-        // ─── DFS ──────────────────────────────────────────────────────
+        //   DFS  
 
         private void btnDfs_Click(object sender, EventArgs e)
         {
@@ -117,13 +117,13 @@ namespace Lab04_Variant03
             var order = _graph!.DFS(start);
 
             AppendOutput("");
-            AppendOutput($"═══ DFS от вершины «{start}» ═══");
+            AppendOutput($"DFS от вершины «{start}» ");
             AppendOutput($"Порядок посещения ({order.Count} вершин):");
             for (int i = 0; i < order.Count; i++)
                 AppendOutput($"  {i + 1}. {order[i]}");
         }
 
-        // ─── Достижимость ─────────────────────────────────────────────
+        // Достижимость 
 
         private void btnReach_Click(object sender, EventArgs e)
         {
@@ -134,13 +134,13 @@ namespace Lab04_Variant03
             bool reachable = _graph!.IsReachable(from, to);
 
             AppendOutput("");
-            AppendOutput($"═══ Достижимость ═══");
+            AppendOutput($"Достижимость ");
             AppendOutput(reachable
                 ? $"✔ Вершина «{to}» ДОСТИЖИМА из «{from}»."
                 : $"✘ Вершина «{to}» НЕ достижима из «{from}».");
         }
 
-        // ─── Компоненты связности ─────────────────────────────────────
+        //  Компоненты связности 
 
         private void btnComponents_Click(object sender, EventArgs e)
         {
@@ -149,7 +149,7 @@ namespace Lab04_Variant03
             var components = _graph!.GetConnectedComponents();
 
             AppendOutput("");
-            AppendOutput($"═══ Компоненты связности: {components.Count} ═══");
+            AppendOutput($" Компоненты связности: {components.Count} ");
             for (int i = 0; i < components.Count; i++)
             {
                 AppendOutput($"  Компонента {i + 1} ({components[i].Count} вершин):");
@@ -158,14 +158,14 @@ namespace Lab04_Variant03
             }
         }
 
-        // ─── Очистить вывод ───────────────────────────────────────────
+        //  Очистить вывод 
 
         private void btnClear_Click(object sender, EventArgs e)
         {
             txtOutput.Clear();
         }
 
-        // ─── Дейкстра: все расстояния от источника ────────────────────
+        // Дейкстра: все расстояния от источника 
 
         private void btnDijkstraAll_Click(object sender, EventArgs e)
         {
@@ -175,7 +175,7 @@ namespace Lab04_Variant03
             var (dist, _) = _graph!.Dijkstra(source);
 
             AppendOutput("");
-            AppendOutput($"═══ Дейкстра: расстояния от «{source}» ═══");
+            AppendOutput($"Дейкстра: расстояния от «{source}» ");
             AppendOutput($"  {"Вершина",-35} {"Расстояние (км)",15}");
             AppendOutput($"  {new string('─', 52)}");
 
@@ -186,7 +186,7 @@ namespace Lab04_Variant03
             }
         }
 
-        // ─── Дейкстра: кратчайший путь между двумя вершинами ─────────
+        // Дейкстра: кратчайший путь между двумя вершинами 
 
         private void btnDijkstraPath_Click(object sender, EventArgs e)
         {
@@ -198,7 +198,7 @@ namespace Lab04_Variant03
             var path = Graph.RestorePath(prev, from, to);
 
             AppendOutput("");
-            AppendOutput($"═══ Кратчайший путь: «{from}» → «{to}» ═══");
+            AppendOutput($"Кратчайший путь: «{from}» → «{to}» ");
 
             if (path.Count == 0)
             {
@@ -210,7 +210,7 @@ namespace Lab04_Variant03
             AppendOutput($"  Длина:   {dist[to]:F2} км");
         }
 
-        // ─── Вспомогательные методы ───────────────────────────────────
+        // Вспомогательные методы 
 
         private bool CheckGraphLoaded()
         {
@@ -226,7 +226,7 @@ namespace Lab04_Variant03
             txtOutput.ScrollToCaret();
         }
 
-        // ─── ЛР №6: Точки сочленения ──────────────────────────────────
+        //  ЛР №6: Точки сочленения 
 
         private void btnArticulation_Click(object sender, EventArgs e)
         {
@@ -235,7 +235,7 @@ namespace Lab04_Variant03
             var points = _graph!.FindArticulationPoints();
 
             AppendOutput("");
-            AppendOutput("═══ Точки сочленения ═══");
+            AppendOutput("Точки сочленения ");
 
             if (points.Count == 0)
             {
@@ -252,7 +252,7 @@ namespace Lab04_Variant03
             AppendOutput("  разрывает дорожную сеть на несвязные части.");
         }
 
-        // ─── ЛР №6: МОД (алгоритм Прима) ─────────────────────────────
+        // ЛР №6: МОД (алгоритм Прима) 
 
         private void btnPrimMST_Click(object sender, EventArgs e)
         {
@@ -282,7 +282,7 @@ namespace Lab04_Variant03
             AppendOutput("  связывающая все перекрёстки района.");
         }
 
-        // ─── ЛР №6: Задача варианта — кратчайший маршрут (Дейкстра) ──
+        // ЛР 6: Задача варианта — кратчайший маршрут (Дейкстра)
 
         private void btnVariantTask_Click(object sender, EventArgs e)
         {
@@ -294,7 +294,7 @@ namespace Lab04_Variant03
             var path = Graph.RestorePath(prev, from, to);
 
             AppendOutput("");
-            AppendOutput($"═══ Задача варианта №3: кратчайший маршрут ═══");
+            AppendOutput($"Задача варианта №3: кратчайший маршрут ");
             AppendOutput($"  Из: {from}");
             AppendOutput($"  В:  {to}");
             AppendOutput("");
@@ -310,7 +310,17 @@ namespace Lab04_Variant03
                 AppendOutput($"    {i + 1}. {path[i]} → {path[i + 1]}");
 
             AppendOutput("");
-            AppendOutput($"  ✔ Итоговая длина: {dist[to]:F2} км");
+            AppendOutput($" Итоговая длина: {dist[to]:F2} км");
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void grpLab6_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

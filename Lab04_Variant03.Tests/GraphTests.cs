@@ -11,14 +11,7 @@ namespace Lab04_Variant03.Tests
     [TestClass]
     public class GraphTests
     {
-        // ─── Вспомогательный метод: строит простой граф для тестов ───
-        //
-        //   A ── B ── C
-        //   |         |
-        //   D ────────┘
-        //
-        //   E  (изолированная вершина)
-        //
+
         private static Graph BuildSampleGraph()
         {
             var g = new Graph();
@@ -30,9 +23,9 @@ namespace Lab04_Variant03.Tests
             return g;
         }
 
-        // ═══════════════════════════════════════════════════════════════
+
         //  1. Структура графа
-        // ═══════════════════════════════════════════════════════════════
+
 
         [TestMethod]
         public void AddVertex_NewVertex_IsContained()
@@ -83,9 +76,9 @@ namespace Lab04_Variant03.Tests
             Assert.AreEqual(7.5, weight);
         }
 
-        // ═══════════════════════════════════════════════════════════════
+
         //  2. BFS
-        // ═══════════════════════════════════════════════════════════════
+
 
         [TestMethod]
         public void BFS_VisitsAllReachableVertices()
@@ -126,9 +119,9 @@ namespace Lab04_Variant03.Tests
             Assert.AreEqual(result.Count, result.Distinct().Count());
         }
 
-        // ═══════════════════════════════════════════════════════════════
+
         //  3. DFS
-        // ═══════════════════════════════════════════════════════════════
+
 
         [TestMethod]
         public void DFS_VisitsAllReachableVertices()
@@ -168,9 +161,8 @@ namespace Lab04_Variant03.Tests
             Assert.AreEqual(result.Count, result.Distinct().Count());
         }
 
-        // ═══════════════════════════════════════════════════════════════
         //  4. Достижимость
-        // ═══════════════════════════════════════════════════════════════
+
 
         [TestMethod]
         public void IsReachable_ConnectedVertices_ReturnsTrue()
@@ -201,9 +193,9 @@ namespace Lab04_Variant03.Tests
             Assert.IsTrue(g.IsReachable("C", "A"));
         }
 
-        // ═══════════════════════════════════════════════════════════════
+
         //  5. Компоненты связности
-        // ═══════════════════════════════════════════════════════════════
+
 
         [TestMethod]
         public void GetConnectedComponents_TwoComponents()
@@ -246,9 +238,9 @@ namespace Lab04_Variant03.Tests
             Assert.AreEqual(3, components.Count);
         }
 
-        // ═══════════════════════════════════════════════════════════════
-        //  6. Дейкстра (ЛР №5)
-        // ═══════════════════════════════════════════════════════════════
+
+        //  6. Дейкстра (ЛР 5)
+
 
         [TestMethod]
         public void Dijkstra_SourceDistanceIsZero()
@@ -342,9 +334,9 @@ namespace Lab04_Variant03.Tests
             Assert.AreEqual(6.0, dist["D"], 1e-9);
         }
 
-        // ═══════════════════════════════════════════════════════════════
-        //  7. Точки сочленения (ЛР №6)
-        // ═══════════════════════════════════════════════════════════════
+
+        //  7. Точки сочленения (ЛР 6)
+
 
         [TestMethod]
         public void FindArticulationPoints_BridgeVertex_IsFound()
@@ -407,9 +399,9 @@ namespace Lab04_Variant03.Tests
             Assert.AreEqual(0, points.Count);
         }
 
-        // ═══════════════════════════════════════════════════════════════
-        //  8. МОД — алгоритм Прима (ЛР №6)
-        // ═══════════════════════════════════════════════════════════════
+
+        //  8. МОД — алгоритм Прима (ЛР 6)
+
 
         [TestMethod]
         public void PrimMST_EdgeCount_IsVerticesMinusOne()

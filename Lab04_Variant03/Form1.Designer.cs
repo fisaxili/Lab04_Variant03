@@ -1,7 +1,4 @@
-﻿using System.Xml.Linq;
-using static System.Net.Mime.MediaTypeNames;
-
-namespace Lab04_Variant03
+﻿namespace Lab04_Variant03
 {
     partial class Form1
     {
@@ -35,11 +32,6 @@ namespace Lab04_Variant03
             lblReachTo = new Label();
             cmbReachTo = new ComboBox();
             btnReach = new Button();
-            btnComponents = new Button();
-            btnClear = new Button();
-            txtOutput = new RichTextBox();
-            lblOutput = new Label();
-            // ЛР №5
             grpDijkstra = new GroupBox();
             lblDijkstraSource = new Label();
             cmbDijkstraSource = new ComboBox();
@@ -49,7 +41,6 @@ namespace Lab04_Variant03
             lblDijkstraTo = new Label();
             cmbDijkstraTo = new ComboBox();
             btnDijkstraPath = new Button();
-            // ЛР №6
             grpLab6 = new GroupBox();
             btnArticulation = new Button();
             btnPrimMST = new Button();
@@ -58,6 +49,10 @@ namespace Lab04_Variant03
             lblVariantTo = new Label();
             cmbVariantTo = new ComboBox();
             btnVariantTask = new Button();
+            btnComponents = new Button();
+            btnClear = new Button();
+            txtOutput = new RichTextBox();
+            lblOutput = new Label();
             panelLeft.SuspendLayout();
             grpBfs.SuspendLayout();
             grpDfs.SuspendLayout();
@@ -80,13 +75,13 @@ namespace Lab04_Variant03
             panelLeft.Controls.Add(btnClear);
             panelLeft.Location = new Point(10, 10);
             panelLeft.Name = "panelLeft";
-            panelLeft.Size = new Size(310, 1150);
+            panelLeft.Size = new Size(613, 788);
             panelLeft.TabIndex = 0;
             // 
             // lblTitle
             // 
             lblTitle.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
-            lblTitle.Location = new Point(10, 10);
+            lblTitle.Location = new Point(168, 10);
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(285, 40);
             lblTitle.TabIndex = 0;
@@ -98,7 +93,7 @@ namespace Lab04_Variant03
             btnLoad.BackColor = Color.SteelBlue;
             btnLoad.FlatStyle = FlatStyle.Flat;
             btnLoad.ForeColor = Color.White;
-            btnLoad.Location = new Point(10, 58);
+            btnLoad.Location = new Point(168, 53);
             btnLoad.Name = "btnLoad";
             btnLoad.Size = new Size(285, 34);
             btnLoad.TabIndex = 1;
@@ -197,7 +192,7 @@ namespace Lab04_Variant03
             grpReach.Controls.Add(btnReach);
             grpReach.Location = new Point(10, 345);
             grpReach.Name = "grpReach";
-            grpReach.Size = new Size(285, 145);
+            grpReach.Size = new Size(285, 170);
             grpReach.TabIndex = 4;
             grpReach.TabStop = false;
             grpReach.Text = "Проверка достижимости (BFS)";
@@ -239,7 +234,7 @@ namespace Lab04_Variant03
             btnReach.BackColor = Color.CornflowerBlue;
             btnReach.FlatStyle = FlatStyle.Flat;
             btnReach.ForeColor = Color.White;
-            btnReach.Location = new Point(8, 112);
+            btnReach.Location = new Point(6, 136);
             btnReach.Name = "btnReach";
             btnReach.Size = new Size(265, 26);
             btnReach.TabIndex = 4;
@@ -247,22 +242,30 @@ namespace Lab04_Variant03
             btnReach.UseVisualStyleBackColor = false;
             btnReach.Click += btnReach_Click;
             // 
-            // grpDijkstra (ЛР №5)
+            // grpDijkstra
             // 
-            grpDijkstra.Text = "Дейкстра — кратчайшие пути";
-            grpDijkstra.Location = new Point(10, 500);
+            grpDijkstra.Controls.Add(lblDijkstraSource);
+            grpDijkstra.Controls.Add(cmbDijkstraSource);
+            grpDijkstra.Controls.Add(btnDijkstraAll);
+            grpDijkstra.Controls.Add(lblDijkstraFrom);
+            grpDijkstra.Controls.Add(cmbDijkstraFrom);
+            grpDijkstra.Controls.Add(lblDijkstraTo);
+            grpDijkstra.Controls.Add(cmbDijkstraTo);
+            grpDijkstra.Controls.Add(btnDijkstraPath);
+            grpDijkstra.Location = new Point(10, 521);
             grpDijkstra.Name = "grpDijkstra";
-            grpDijkstra.Size = new Size(285, 245);
+            grpDijkstra.Size = new Size(285, 252);
             grpDijkstra.TabIndex = 7;
             grpDijkstra.TabStop = false;
+            grpDijkstra.Text = "Дейкстра — кратчайшие пути";
             // 
             // lblDijkstraSource
             // 
-            lblDijkstraSource.Text = "Источник (все расстояния):";
             lblDijkstraSource.Location = new Point(8, 22);
             lblDijkstraSource.Name = "lblDijkstraSource";
             lblDijkstraSource.Size = new Size(200, 22);
             lblDijkstraSource.TabIndex = 0;
+            lblDijkstraSource.Text = "Источник (все расстояния):";
             // 
             // cmbDijkstraSource
             // 
@@ -274,24 +277,24 @@ namespace Lab04_Variant03
             // 
             // btnDijkstraAll
             // 
-            btnDijkstraAll.Text = "Расстояния до всех вершин";
+            btnDijkstraAll.BackColor = Color.MediumPurple;
+            btnDijkstraAll.FlatStyle = FlatStyle.Flat;
+            btnDijkstraAll.ForeColor = Color.White;
             btnDijkstraAll.Location = new Point(8, 75);
             btnDijkstraAll.Name = "btnDijkstraAll";
             btnDijkstraAll.Size = new Size(265, 26);
-            btnDijkstraAll.BackColor = Color.MediumPurple;
-            btnDijkstraAll.ForeColor = Color.White;
-            btnDijkstraAll.FlatStyle = FlatStyle.Flat;
             btnDijkstraAll.TabIndex = 2;
+            btnDijkstraAll.Text = "Расстояния до всех вершин";
             btnDijkstraAll.UseVisualStyleBackColor = false;
             btnDijkstraAll.Click += btnDijkstraAll_Click;
             // 
             // lblDijkstraFrom
             // 
-            lblDijkstraFrom.Text = "Маршрут — из вершины:";
             lblDijkstraFrom.Location = new Point(8, 112);
             lblDijkstraFrom.Name = "lblDijkstraFrom";
             lblDijkstraFrom.Size = new Size(200, 22);
             lblDijkstraFrom.TabIndex = 3;
+            lblDijkstraFrom.Text = "Маршрут — из вершины:";
             // 
             // cmbDijkstraFrom
             // 
@@ -303,11 +306,11 @@ namespace Lab04_Variant03
             // 
             // lblDijkstraTo
             // 
-            lblDijkstraTo.Text = "В вершину:";
             lblDijkstraTo.Location = new Point(8, 165);
             lblDijkstraTo.Name = "lblDijkstraTo";
             lblDijkstraTo.Size = new Size(100, 22);
             lblDijkstraTo.TabIndex = 5;
+            lblDijkstraTo.Text = "В вершину:";
             // 
             // cmbDijkstraTo
             // 
@@ -319,65 +322,67 @@ namespace Lab04_Variant03
             // 
             // btnDijkstraPath
             // 
-            btnDijkstraPath.Text = "Найти кратчайший маршрут";
-            btnDijkstraPath.Location = new Point(8, 213);
+            btnDijkstraPath.BackColor = Color.MediumPurple;
+            btnDijkstraPath.FlatStyle = FlatStyle.Flat;
+            btnDijkstraPath.ForeColor = Color.White;
+            btnDijkstraPath.Location = new Point(8, 220);
             btnDijkstraPath.Name = "btnDijkstraPath";
             btnDijkstraPath.Size = new Size(265, 26);
-            btnDijkstraPath.BackColor = Color.MediumPurple;
-            btnDijkstraPath.ForeColor = Color.White;
-            btnDijkstraPath.FlatStyle = FlatStyle.Flat;
             btnDijkstraPath.TabIndex = 7;
+            btnDijkstraPath.Text = "Найти кратчайший маршрут";
             btnDijkstraPath.UseVisualStyleBackColor = false;
             btnDijkstraPath.Click += btnDijkstraPath_Click;
-
-            grpDijkstra.Controls.AddRange(new Control[] {
-                lblDijkstraSource, cmbDijkstraSource, btnDijkstraAll,
-                lblDijkstraFrom, cmbDijkstraFrom,
-                lblDijkstraTo, cmbDijkstraTo, btnDijkstraPath
-            });
             // 
-            // grpLab6 (ЛР №6)
+            // grpLab6
             // 
-            grpLab6.Text = "ЛР №6 — Анализ графа";
-            grpLab6.Location = new Point(10, 755);
+            grpLab6.Controls.Add(btnArticulation);
+            grpLab6.Controls.Add(btnPrimMST);
+            grpLab6.Controls.Add(lblVariantFrom);
+            grpLab6.Controls.Add(cmbVariantFrom);
+            grpLab6.Controls.Add(lblVariantTo);
+            grpLab6.Controls.Add(cmbVariantTo);
+            grpLab6.Controls.Add(btnVariantTask);
+            grpLab6.Location = new Point(316, 105);
             grpLab6.Name = "grpLab6";
             grpLab6.Size = new Size(285, 270);
             grpLab6.TabIndex = 8;
             grpLab6.TabStop = false;
+            grpLab6.Text = "Анализ графа";
+            grpLab6.Enter += grpLab6_Enter;
             // 
             // btnArticulation
             // 
-            btnArticulation.Text = "Точки сочленения";
+            btnArticulation.BackColor = Color.IndianRed;
+            btnArticulation.FlatStyle = FlatStyle.Flat;
+            btnArticulation.ForeColor = Color.White;
             btnArticulation.Location = new Point(8, 25);
             btnArticulation.Name = "btnArticulation";
             btnArticulation.Size = new Size(265, 30);
-            btnArticulation.BackColor = Color.IndianRed;
-            btnArticulation.ForeColor = Color.White;
-            btnArticulation.FlatStyle = FlatStyle.Flat;
             btnArticulation.TabIndex = 0;
+            btnArticulation.Text = "Точки сочленения";
             btnArticulation.UseVisualStyleBackColor = false;
             btnArticulation.Click += btnArticulation_Click;
             // 
             // btnPrimMST
             // 
-            btnPrimMST.Text = "МОД — алгоритм Прима";
+            btnPrimMST.BackColor = Color.Teal;
+            btnPrimMST.FlatStyle = FlatStyle.Flat;
+            btnPrimMST.ForeColor = Color.White;
             btnPrimMST.Location = new Point(8, 63);
             btnPrimMST.Name = "btnPrimMST";
             btnPrimMST.Size = new Size(265, 30);
-            btnPrimMST.BackColor = Color.Teal;
-            btnPrimMST.ForeColor = Color.White;
-            btnPrimMST.FlatStyle = FlatStyle.Flat;
             btnPrimMST.TabIndex = 1;
+            btnPrimMST.Text = "МОД — алгоритм Прима";
             btnPrimMST.UseVisualStyleBackColor = false;
             btnPrimMST.Click += btnPrimMST_Click;
             // 
             // lblVariantFrom
             // 
-            lblVariantFrom.Text = "Задача варианта — из:";
             lblVariantFrom.Location = new Point(8, 108);
             lblVariantFrom.Name = "lblVariantFrom";
             lblVariantFrom.Size = new Size(200, 22);
             lblVariantFrom.TabIndex = 2;
+            lblVariantFrom.Text = "Задача варианта — из:";
             // 
             // cmbVariantFrom
             // 
@@ -389,11 +394,11 @@ namespace Lab04_Variant03
             // 
             // lblVariantTo
             // 
-            lblVariantTo.Text = "В вершину:";
             lblVariantTo.Location = new Point(8, 162);
             lblVariantTo.Name = "lblVariantTo";
             lblVariantTo.Size = new Size(100, 22);
             lblVariantTo.TabIndex = 4;
+            lblVariantTo.Text = "В вершину:";
             // 
             // cmbVariantTo
             // 
@@ -405,29 +410,23 @@ namespace Lab04_Variant03
             // 
             // btnVariantTask
             // 
-            btnVariantTask.Text = "Кратчайший маршрут (вар. 3)";
+            btnVariantTask.BackColor = Color.DarkSlateBlue;
+            btnVariantTask.FlatStyle = FlatStyle.Flat;
+            btnVariantTask.ForeColor = Color.White;
             btnVariantTask.Location = new Point(8, 218);
             btnVariantTask.Name = "btnVariantTask";
             btnVariantTask.Size = new Size(265, 30);
-            btnVariantTask.BackColor = Color.DarkSlateBlue;
-            btnVariantTask.ForeColor = Color.White;
-            btnVariantTask.FlatStyle = FlatStyle.Flat;
             btnVariantTask.TabIndex = 6;
+            btnVariantTask.Text = "Кратчайший маршрут (вар. 3)";
             btnVariantTask.UseVisualStyleBackColor = false;
             btnVariantTask.Click += btnVariantTask_Click;
-
-            grpLab6.Controls.AddRange(new Control[] {
-                btnArticulation, btnPrimMST,
-                lblVariantFrom, cmbVariantFrom,
-                lblVariantTo, cmbVariantTo, btnVariantTask
-            });
             // 
             // btnComponents
             // 
             btnComponents.BackColor = Color.DarkOrange;
             btnComponents.FlatStyle = FlatStyle.Flat;
             btnComponents.ForeColor = Color.White;
-            btnComponents.Location = new Point(10, 1035);
+            btnComponents.Location = new Point(316, 393);
             btnComponents.Name = "btnComponents";
             btnComponents.Size = new Size(285, 34);
             btnComponents.TabIndex = 5;
@@ -440,7 +439,7 @@ namespace Lab04_Variant03
             btnClear.BackColor = Color.Gray;
             btnClear.FlatStyle = FlatStyle.Flat;
             btnClear.ForeColor = Color.White;
-            btnClear.Location = new Point(10, 1079);
+            btnClear.Location = new Point(316, 443);
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(285, 34);
             btnClear.TabIndex = 6;
@@ -454,18 +453,18 @@ namespace Lab04_Variant03
             txtOutput.BorderStyle = BorderStyle.FixedSingle;
             txtOutput.Font = new Font("Consolas", 9.5F);
             txtOutput.ForeColor = Color.LightGreen;
-            txtOutput.Location = new Point(330, 35);
+            txtOutput.Location = new Point(645, 31);
             txtOutput.Name = "txtOutput";
             txtOutput.ReadOnly = true;
             txtOutput.ScrollBars = RichTextBoxScrollBars.Vertical;
-            txtOutput.Size = new Size(655, 1128);
+            txtOutput.Size = new Size(655, 769);
             txtOutput.TabIndex = 2;
             txtOutput.Text = "";
             // 
             // lblOutput
             // 
             lblOutput.Font = new Font("Times New Roman", 10F, FontStyle.Bold);
-            lblOutput.Location = new Point(330, 10);
+            lblOutput.Location = new Point(645, 6);
             lblOutput.Name = "lblOutput";
             lblOutput.Size = new Size(120, 22);
             lblOutput.TabIndex = 1;
@@ -475,15 +474,16 @@ namespace Lab04_Variant03
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1002, 1180);
+            ClientSize = new Size(1307, 810);
             Controls.Add(panelLeft);
             Controls.Add(lblOutput);
             Controls.Add(txtOutput);
             Font = new Font("Times New Roman", 10F);
-            MinimumSize = new Size(1020, 1220);
+            MinimumSize = new Size(1020, 857);
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ЛР №4–6 — Дорожная сеть района (Вариант 3)";
+            Load += Form1_Load;
             panelLeft.ResumeLayout(false);
             grpBfs.ResumeLayout(false);
             grpDfs.ResumeLayout(false);
