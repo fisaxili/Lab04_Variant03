@@ -1,7 +1,5 @@
-﻿using System.Xml.Linq;
-using static System.Net.Mime.MediaTypeNames;
-
-namespace Lab4Demo
+﻿
+namespace Lab04_Variant03
 {
     partial class Form1
     {

@@ -21,7 +21,7 @@ namespace Lab04_Variant03
             InitializeComponent();
         }
 
-        //Загрузка графа
+        // ─── Загрузка графа ───────────────────────────────────────────
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
@@ -38,7 +38,7 @@ namespace Lab04_Variant03
                 _graph = Graph.LoadFromFile(dlg.FileName);
                 PopulateComboBoxes();
 
-                AppendOutput($"Граф загружен: {_graph.Vertices.Count} вершин.");
+                AppendOutput($"✔ Граф загружен: {_graph.Vertices.Count} вершин.");
                 AppendOutput("Вершины:");
                 foreach (string v in _graph.Vertices)
                     AppendOutput($"  • {v}");
@@ -49,6 +49,7 @@ namespace Lab04_Variant03
                                 "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void PopulateComboBoxes()
         {
             if (_graph == null) return;
@@ -57,6 +58,9 @@ namespace Lab04_Variant03
             cmbDfsStart.Items.Clear();
             cmbReachFrom.Items.Clear();
             cmbReachTo.Items.Clear();
+            cmbDijkstraSource.Items.Clear();
+            cmbDijkstraFrom.Items.Clear();
+            cmbDijkstraTo.Items.Clear();
 
             foreach (string v in _graph.Vertices)
             {
@@ -64,6 +68,9 @@ namespace Lab04_Variant03
                 cmbDfsStart.Items.Add(v);
                 cmbReachFrom.Items.Add(v);
                 cmbReachTo.Items.Add(v);
+                cmbDijkstraSource.Items.Add(v);
+                cmbDijkstraFrom.Items.Add(v);
+                cmbDijkstraTo.Items.Add(v);
             }
 
             if (cmbBfsStart.Items.Count > 0)
@@ -72,10 +79,13 @@ namespace Lab04_Variant03
                 cmbDfsStart.SelectedIndex = 0;
                 cmbReachFrom.SelectedIndex = 0;
                 cmbReachTo.SelectedIndex = cmbReachTo.Items.Count > 1 ? 1 : 0;
+                cmbDijkstraSource.SelectedIndex = 0;
+                cmbDijkstraFrom.SelectedIndex = 0;
+                cmbDijkstraTo.SelectedIndex = cmbDijkstraTo.Items.Count > 1 ? 1 : 0;
             }
         }
 
-        // BFS
+        // ─── BFS ──────────────────────────────────────────────────────
 
         private void btnBfs_Click(object sender, EventArgs e)
         {
@@ -85,13 +95,13 @@ namespace Lab04_Variant03
             var order = _graph!.BFS(start);
 
             AppendOutput("");
-            AppendOutput($" BFS от вершины «{start}» ");
+            AppendOutput($"═══ BFS от вершины «{start}» ═══");
             AppendOutput($"Порядок посещения ({order.Count} вершин):");
             for (int i = 0; i < order.Count; i++)
                 AppendOutput($"  {i + 1}. {order[i]}");
         }
 
-        // DFS 
+        // ─── DFS ──────────────────────────────────────────────────────
 
         private void btnDfs_Click(object sender, EventArgs e)
         {
@@ -101,12 +111,13 @@ namespace Lab04_Variant03
             var order = _graph!.DFS(start);
 
             AppendOutput("");
-            AppendOutput($"DFS от вершины «{start}» ");
+            AppendOutput($"═══ DFS от вершины «{start}» ═══");
             AppendOutput($"Порядок посещения ({order.Count} вершин):");
             for (int i = 0; i < order.Count; i++)
                 AppendOutput($"  {i + 1}. {order[i]}");
         }
-        // Достижимость 
+
+        // ─── Достижимость ─────────────────────────────────────────────
 
         private void btnReach_Click(object sender, EventArgs e)
         {
@@ -117,13 +128,13 @@ namespace Lab04_Variant03
             bool reachable = _graph!.IsReachable(from, to);
 
             AppendOutput("");
-            AppendOutput($"Достижимость ");
+            AppendOutput($"═══ Достижимость ═══");
             AppendOutput(reachable
                 ? $"✔ Вершина «{to}» ДОСТИЖИМА из «{from}»."
                 : $"✘ Вершина «{to}» НЕ достижима из «{from}».");
         }
 
-        // Компоненты связности 
+        // ─── Компоненты связности ─────────────────────────────────────
 
         private void btnComponents_Click(object sender, EventArgs e)
         {
@@ -132,7 +143,7 @@ namespace Lab04_Variant03
             var components = _graph!.GetConnectedComponents();
 
             AppendOutput("");
-            AppendOutput($"Компоненты связности: {components.Count} ");
+            AppendOutput($"═══ Компоненты связности: {components.Count} ═══");
             for (int i = 0; i < components.Count; i++)
             {
                 AppendOutput($"  Компонента {i + 1} ({components[i].Count} вершин):");
@@ -141,14 +152,59 @@ namespace Lab04_Variant03
             }
         }
 
-        // Очистить вывод 
+        // ─── Очистить вывод ───────────────────────────────────────────
 
         private void btnClear_Click(object sender, EventArgs e)
         {
             txtOutput.Clear();
         }
 
-        // Вспомогательные методы 
+        // ─── Дейкстра: все расстояния от источника ────────────────────
+
+        private void btnDijkstraAll_Click(object sender, EventArgs e)
+        {
+            if (!CheckGraphLoaded()) return;
+            if (cmbDijkstraSource.SelectedItem is not string source) return;
+
+            var (dist, _) = _graph!.Dijkstra(source);
+
+            AppendOutput("");
+            AppendOutput($"═══ Дейкстра: расстояния от «{source}» ═══");
+            AppendOutput($"  {"Вершина",-35} {"Расстояние (км)",15}");
+            AppendOutput($"  {new string('─', 52)}");
+
+            foreach (string v in _graph.Vertices)
+            {
+                string distStr = double.IsPositiveInfinity(dist[v]) ? "недостижима" : $"{dist[v]:F2} км";
+                AppendOutput($"  {v,-35} {distStr,15}");
+            }
+        }
+
+        // ─── Дейкстра: кратчайший путь между двумя вершинами ─────────
+
+        private void btnDijkstraPath_Click(object sender, EventArgs e)
+        {
+            if (!CheckGraphLoaded()) return;
+            if (cmbDijkstraFrom.SelectedItem is not string from) return;
+            if (cmbDijkstraTo.SelectedItem is not string to) return;
+
+            var (dist, prev) = _graph!.Dijkstra(from);
+            var path = Graph.RestorePath(prev, from, to);
+
+            AppendOutput("");
+            AppendOutput($"═══ Кратчайший путь: «{from}» → «{to}» ═══");
+
+            if (path.Count == 0)
+            {
+                AppendOutput("  ✘ Путь не существует.");
+                return;
+            }
+
+            AppendOutput($"  Маршрут: {string.Join(" → ", path)}");
+            AppendOutput($"  Длина:   {dist[to]:F2} км");
+        }
+
+        // ─── Вспомогательные методы ───────────────────────────────────
 
         private bool CheckGraphLoaded()
         {
