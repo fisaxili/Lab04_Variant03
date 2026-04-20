@@ -341,6 +341,140 @@ namespace Lab04_Variant03.Tests
             Assert.AreEqual(3.0, dist["C"], 1e-9);
             Assert.AreEqual(6.0, dist["D"], 1e-9);
         }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  7. Точки сочленения (ЛР №6)
+        // ═══════════════════════════════════════════════════════════════
+
+        [TestMethod]
+        public void FindArticulationPoints_BridgeVertex_IsFound()
+        {
+            // A ── B ── C  (B — единственный мост между A и C)
+            var g = new Graph();
+            g.AddEdge("A", "B", 1.0);
+            g.AddEdge("B", "C", 1.0);
+
+            var points = g.FindArticulationPoints();
+            CollectionAssert.Contains(points, "B");
+        }
+
+        [TestMethod]
+        public void FindArticulationPoints_Cycle_NoArticulationPoints()
+        {
+            // A ── B ── C ── A  (цикл — нет точек сочленения)
+            var g = new Graph();
+            g.AddEdge("A", "B", 1.0);
+            g.AddEdge("B", "C", 1.0);
+            g.AddEdge("C", "A", 1.0);
+
+            var points = g.FindArticulationPoints();
+            Assert.AreEqual(0, points.Count);
+        }
+
+        [TestMethod]
+        public void FindArticulationPoints_SampleGraph_ContainsExpected()
+        {
+            // A ── B ── C
+            // |         |
+            // D ────────┘
+            // B соединяет A─D с C, но есть обходной путь через D─C
+            // → в этом графе нет точек сочленения
+            var g = BuildSampleGraph();
+            var points = g.FindArticulationPoints();
+            // граф содержит цикл A─B─C─D─A, поэтому точек сочленения нет
+            Assert.AreEqual(0, points.Count);
+        }
+
+        [TestMethod]
+        public void FindArticulationPoints_StarGraph_CenterIsArticulation()
+        {
+            // Звезда: центр C соединён с A, B, D
+            // Удаление C делает граф несвязным
+            var g = new Graph();
+            g.AddEdge("C", "A", 1.0);
+            g.AddEdge("C", "B", 1.0);
+            g.AddEdge("C", "D", 1.0);
+
+            var points = g.FindArticulationPoints();
+            CollectionAssert.Contains(points, "C");
+        }
+
+        [TestMethod]
+        public void FindArticulationPoints_EmptyGraph_ReturnsEmpty()
+        {
+            var g = new Graph();
+            var points = g.FindArticulationPoints();
+            Assert.AreEqual(0, points.Count);
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  8. МОД — алгоритм Прима (ЛР №6)
+        // ═══════════════════════════════════════════════════════════════
+
+        [TestMethod]
+        public void PrimMST_EdgeCount_IsVerticesMinusOne()
+        {
+            var g = BuildSampleGraph();
+            // Убираем изолированную E — Прима строит МОД для компоненты от первой вершины
+            var g2 = new Graph();
+            g2.AddEdge("A", "B", 1.0);
+            g2.AddEdge("B", "C", 2.0);
+            g2.AddEdge("A", "D", 3.0);
+            g2.AddEdge("C", "D", 1.5);
+
+            var (edges, _) = g2.PrimMST();
+            // МОД из 4 вершин содержит ровно 3 ребра
+            Assert.AreEqual(3, edges.Count);
+        }
+
+        [TestMethod]
+        public void PrimMST_TotalWeight_IsMinimal()
+        {
+            // A ─1─ B ─2─ C ─3─ D, плюс A ─10─ D
+            // МОД: A─B(1) + B─C(2) + C─D(3) = 6, а не A─D(10)
+            var g = new Graph();
+            g.AddEdge("A", "B", 1.0);
+            g.AddEdge("B", "C", 2.0);
+            g.AddEdge("C", "D", 3.0);
+            g.AddEdge("A", "D", 10.0);
+
+            var (_, total) = g.PrimMST();
+            Assert.AreEqual(6.0, total, 1e-9);
+        }
+
+        [TestMethod]
+        public void PrimMST_AllVerticesCovered()
+        {
+            var g = new Graph();
+            g.AddEdge("A", "B", 1.0);
+            g.AddEdge("B", "C", 2.0);
+            g.AddEdge("C", "D", 3.0);
+
+            var (edges, _) = g.PrimMST();
+
+            // Все 4 вершины должны присутствовать в рёбрах МОД
+            var covered = edges.SelectMany(e => new[] { e.from, e.to }).Distinct().ToList();
+            Assert.AreEqual(4, covered.Count);
+        }
+
+        [TestMethod]
+        public void PrimMST_EmptyGraph_ReturnsEmpty()
+        {
+            var g = new Graph();
+            var (edges, total) = g.PrimMST();
+            Assert.AreEqual(0, edges.Count);
+            Assert.AreEqual(0.0, total);
+        }
+
+        [TestMethod]
+        public void PrimMST_SingleEdge_ReturnsThatEdge()
+        {
+            var g = new Graph();
+            g.AddEdge("X", "Y", 5.5);
+
+            var (edges, total) = g.PrimMST();
+            Assert.AreEqual(1, edges.Count);
+            Assert.AreEqual(5.5, total, 1e-9);
+        }
     }
 }
-
