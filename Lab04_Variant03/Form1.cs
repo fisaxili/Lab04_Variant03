@@ -219,5 +219,10 @@ namespace Lab04_Variant03
             txtOutput.AppendText(text + Environment.NewLine);
             txtOutput.ScrollToCaret();
         }
+
+        private void panelLeft_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
