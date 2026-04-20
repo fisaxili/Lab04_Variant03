@@ -1,4 +1,7 @@
-﻿namespace Lab04_Variant03
+﻿using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
+
+namespace Lab4Demo
 {
     partial class Form1
     {
@@ -36,10 +39,21 @@
             btnClear = new Button();
             txtOutput = new RichTextBox();
             lblOutput = new Label();
+            // ЛР №5
+            grpDijkstra = new GroupBox();
+            lblDijkstraSource = new Label();
+            cmbDijkstraSource = new ComboBox();
+            btnDijkstraAll = new Button();
+            lblDijkstraFrom = new Label();
+            cmbDijkstraFrom = new ComboBox();
+            lblDijkstraTo = new Label();
+            cmbDijkstraTo = new ComboBox();
+            btnDijkstraPath = new Button();
             panelLeft.SuspendLayout();
             grpBfs.SuspendLayout();
             grpDfs.SuspendLayout();
             grpReach.SuspendLayout();
+            grpDijkstra.SuspendLayout();
             SuspendLayout();
             // 
             // panelLeft
@@ -50,11 +64,12 @@
             panelLeft.Controls.Add(grpBfs);
             panelLeft.Controls.Add(grpDfs);
             panelLeft.Controls.Add(grpReach);
+            panelLeft.Controls.Add(grpDijkstra);
             panelLeft.Controls.Add(btnComponents);
             panelLeft.Controls.Add(btnClear);
             panelLeft.Location = new Point(10, 10);
             panelLeft.Name = "panelLeft";
-            panelLeft.Size = new Size(310, 632);
+            panelLeft.Size = new Size(310, 870);
             panelLeft.TabIndex = 0;
             // 
             // lblTitle
@@ -76,7 +91,7 @@
             btnLoad.Name = "btnLoad";
             btnLoad.Size = new Size(285, 34);
             btnLoad.TabIndex = 1;
-            btnLoad.Text = "Загрузить граф из файла";
+            btnLoad.Text = "📂  Загрузить граф из файла";
             btnLoad.UseVisualStyleBackColor = false;
             btnLoad.Click += btnLoad_Click;
             // 
@@ -171,7 +186,7 @@
             grpReach.Controls.Add(btnReach);
             grpReach.Location = new Point(10, 345);
             grpReach.Name = "grpReach";
-            grpReach.Size = new Size(285, 165);
+            grpReach.Size = new Size(285, 145);
             grpReach.TabIndex = 4;
             grpReach.TabStop = false;
             grpReach.Text = "Проверка достижимости (BFS)";
@@ -203,7 +218,7 @@
             // cmbReachTo
             // 
             cmbReachTo.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbReachTo.Location = new Point(8, 100);
+            cmbReachTo.Location = new Point(6, 103);
             cmbReachTo.Name = "cmbReachTo";
             cmbReachTo.Size = new Size(265, 27);
             cmbReachTo.TabIndex = 3;
@@ -213,7 +228,7 @@
             btnReach.BackColor = Color.CornflowerBlue;
             btnReach.FlatStyle = FlatStyle.Flat;
             btnReach.ForeColor = Color.White;
-            btnReach.Location = new Point(8, 133);
+            btnReach.Location = new Point(8, 112);
             btnReach.Name = "btnReach";
             btnReach.Size = new Size(265, 26);
             btnReach.TabIndex = 4;
@@ -221,12 +236,101 @@
             btnReach.UseVisualStyleBackColor = false;
             btnReach.Click += btnReach_Click;
             // 
+            // grpDijkstra (ЛР №5)
+            // 
+            grpDijkstra.Text = "Дейкстра — кратчайшие пути";
+            grpDijkstra.Location = new Point(10, 500);
+            grpDijkstra.Name = "grpDijkstra";
+            grpDijkstra.Size = new Size(285, 245);
+            grpDijkstra.TabIndex = 7;
+            grpDijkstra.TabStop = false;
+            // 
+            // lblDijkstraSource
+            // 
+            lblDijkstraSource.Text = "Источник (все расстояния):";
+            lblDijkstraSource.Location = new Point(8, 22);
+            lblDijkstraSource.Name = "lblDijkstraSource";
+            lblDijkstraSource.Size = new Size(200, 22);
+            lblDijkstraSource.TabIndex = 0;
+            // 
+            // cmbDijkstraSource
+            // 
+            cmbDijkstraSource.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbDijkstraSource.Location = new Point(8, 45);
+            cmbDijkstraSource.Name = "cmbDijkstraSource";
+            cmbDijkstraSource.Size = new Size(265, 27);
+            cmbDijkstraSource.TabIndex = 1;
+            // 
+            // btnDijkstraAll
+            // 
+            btnDijkstraAll.Text = "Расстояния до всех вершин";
+            btnDijkstraAll.Location = new Point(8, 75);
+            btnDijkstraAll.Name = "btnDijkstraAll";
+            btnDijkstraAll.Size = new Size(265, 26);
+            btnDijkstraAll.BackColor = Color.MediumPurple;
+            btnDijkstraAll.ForeColor = Color.White;
+            btnDijkstraAll.FlatStyle = FlatStyle.Flat;
+            btnDijkstraAll.TabIndex = 2;
+            btnDijkstraAll.UseVisualStyleBackColor = false;
+            btnDijkstraAll.Click += btnDijkstraAll_Click;
+            // 
+            // lblDijkstraFrom
+            // 
+            lblDijkstraFrom.Text = "Маршрут — из вершины:";
+            lblDijkstraFrom.Location = new Point(8, 112);
+            lblDijkstraFrom.Name = "lblDijkstraFrom";
+            lblDijkstraFrom.Size = new Size(200, 22);
+            lblDijkstraFrom.TabIndex = 3;
+            // 
+            // cmbDijkstraFrom
+            // 
+            cmbDijkstraFrom.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbDijkstraFrom.Location = new Point(8, 135);
+            cmbDijkstraFrom.Name = "cmbDijkstraFrom";
+            cmbDijkstraFrom.Size = new Size(265, 27);
+            cmbDijkstraFrom.TabIndex = 4;
+            // 
+            // lblDijkstraTo
+            // 
+            lblDijkstraTo.Text = "В вершину:";
+            lblDijkstraTo.Location = new Point(8, 165);
+            lblDijkstraTo.Name = "lblDijkstraTo";
+            lblDijkstraTo.Size = new Size(100, 22);
+            lblDijkstraTo.TabIndex = 5;
+            // 
+            // cmbDijkstraTo
+            // 
+            cmbDijkstraTo.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbDijkstraTo.Location = new Point(8, 188);
+            cmbDijkstraTo.Name = "cmbDijkstraTo";
+            cmbDijkstraTo.Size = new Size(265, 27);
+            cmbDijkstraTo.TabIndex = 6;
+            // 
+            // btnDijkstraPath
+            // 
+            btnDijkstraPath.Text = "Найти кратчайший маршрут";
+            btnDijkstraPath.Location = new Point(8, 213);
+            btnDijkstraPath.Name = "btnDijkstraPath";
+            btnDijkstraPath.Size = new Size(265, 26);
+            btnDijkstraPath.BackColor = Color.MediumPurple;
+            btnDijkstraPath.ForeColor = Color.White;
+            btnDijkstraPath.FlatStyle = FlatStyle.Flat;
+            btnDijkstraPath.TabIndex = 7;
+            btnDijkstraPath.UseVisualStyleBackColor = false;
+            btnDijkstraPath.Click += btnDijkstraPath_Click;
+
+            grpDijkstra.Controls.AddRange(new Control[] {
+                lblDijkstraSource, cmbDijkstraSource, btnDijkstraAll,
+                lblDijkstraFrom, cmbDijkstraFrom,
+                lblDijkstraTo, cmbDijkstraTo, btnDijkstraPath
+            });
+            // 
             // btnComponents
             // 
             btnComponents.BackColor = Color.DarkOrange;
             btnComponents.FlatStyle = FlatStyle.Flat;
             btnComponents.ForeColor = Color.White;
-            btnComponents.Location = new Point(10, 528);
+            btnComponents.Location = new Point(10, 755);
             btnComponents.Name = "btnComponents";
             btnComponents.Size = new Size(285, 34);
             btnComponents.TabIndex = 5;
@@ -239,7 +343,7 @@
             btnClear.BackColor = Color.Gray;
             btnClear.FlatStyle = FlatStyle.Flat;
             btnClear.ForeColor = Color.White;
-            btnClear.Location = new Point(10, 568);
+            btnClear.Location = new Point(10, 799);
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(285, 34);
             btnClear.TabIndex = 6;
@@ -257,7 +361,7 @@
             txtOutput.Name = "txtOutput";
             txtOutput.ReadOnly = true;
             txtOutput.ScrollBars = RichTextBoxScrollBars.Vertical;
-            txtOutput.Size = new Size(655, 590);
+            txtOutput.Size = new Size(655, 848);
             txtOutput.TabIndex = 2;
             txtOutput.Text = "";
             // 
@@ -274,25 +378,26 @@
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1002, 676);
+            ClientSize = new Size(1002, 900);
             Controls.Add(panelLeft);
             Controls.Add(lblOutput);
             Controls.Add(txtOutput);
             Font = new Font("Times New Roman", 10F);
-            MinimumSize = new Size(1020, 690);
+            MinimumSize = new Size(1020, 940);
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "ЛР №4 — Дорожная сеть района (Вариант 3)";
+            Text = "ЛР №4–5 — Дорожная сеть района (Вариант 3)";
             panelLeft.ResumeLayout(false);
             grpBfs.ResumeLayout(false);
             grpDfs.ResumeLayout(false);
             grpReach.ResumeLayout(false);
+            grpDijkstra.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
-        //Fields 
+        // ── Fields ────────────────────────────────────────────────────
         private System.Windows.Forms.Panel panelLeft;
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Button btnLoad;
@@ -314,6 +419,15 @@
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Label lblOutput;
         private System.Windows.Forms.RichTextBox txtOutput;
+        // ── ЛР №5: Дейкстра ──────────────────────────────────────────
+        private System.Windows.Forms.GroupBox grpDijkstra;
+        private System.Windows.Forms.Label lblDijkstraSource;
+        private System.Windows.Forms.ComboBox cmbDijkstraSource;
+        private System.Windows.Forms.Button btnDijkstraAll;
+        private System.Windows.Forms.Label lblDijkstraFrom;
+        private System.Windows.Forms.ComboBox cmbDijkstraFrom;
+        private System.Windows.Forms.Label lblDijkstraTo;
+        private System.Windows.Forms.ComboBox cmbDijkstraTo;
+        private System.Windows.Forms.Button btnDijkstraPath;
     }
 }
-
