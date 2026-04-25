@@ -68,35 +68,31 @@
 
 ```mermaid
 flowchart TD
-    SLN["Lab04_Variant03.slnx\nфайл решения"]
+    MAIN["Lab04_Variant03\nосновной проект WinForms"]
 
-    SLN --> MAIN["Lab04_Variant03\nосновной проект WinForms"]
-    SLN --> TESTS["Lab04_Variant03.Tests\nтестовый проект MSTest"]
-    SLN --> DOT["graph_diagram.dot\nсхема графа Graphviz"]
-
-    MAIN --> GRAPH["Graph.cs\nвсе алгоритмы ЛР №4–6"]
+    MAIN --> PROGRAM["Program.cs\nточка входа — запуск Form1"]
+    MAIN --> DESIGNER["Form1.Designer.cs\nразметка UI — кнопки, списки, поле вывода"]
     MAIN --> FORM1["Form1.cs\nлогика интерфейса"]
-    MAIN --> DESIGNER["Form1.Designer.cs\nразметка UI"]
-    MAIN --> PROGRAM["Program.cs\nточка входа"]
-    MAIN --> DATA["graph_data.txt\n15 вершин, 22 ребра"]
-    MAIN --> CSPROJ["Lab04_Variant03.csproj"]
+    MAIN --> GRAPH["Graph.cs\nалгоритмическое ядро"]
+    MAIN --> DATA["graph_data.txt\nданные графа — 15 вершин, 22 ребра"]
 
-    GRAPH --> LR4["ЛР №4: BFS, DFS\nIsReachable\nGetConnectedComponents\nLoadFromFile"]
-    GRAPH --> LR5["ЛР №5: Dijkstra\nRestorePath"]
-    GRAPH --> LR6["ЛР №6: FindArticulationPoints\nPrimMST"]
+    FORM1 --> F1["btnLoad_Click\nзагрузка графа из файла"]
+    FORM1 --> F2["btnBfs_Click\nBFS — обход в ширину"]
+    FORM1 --> F3["btnDfs_Click\nDFS — обход в глубину"]
+    FORM1 --> F4["btnReach_Click\nпроверка достижимости"]
+    FORM1 --> F5["btnComponents_Click\nкомпоненты связности"]
+    FORM1 --> F6["btnDijkstraAll_Click\nДейкстра — все расстояния"]
+    FORM1 --> F7["btnDijkstraPath_Click\nДейкстра — маршрут"]
+    FORM1 --> F8["btnArticulation_Click\nточки сочленения"]
+    FORM1 --> F9["btnPrimMST_Click\nМОД — алгоритм Прима"]
+    FORM1 --> F10["btnVariantTask_Click\nзадача варианта №3"]
 
-    TESTS --> GT["GraphTests.cs\n40 тестов"]
-    TESTS --> RS["coverage.runsettings\nфильтр покрытия"]
-    TESTS --> TCSPROJ["Lab04_Variant03.Tests.csproj"]
-
-    GT --> G1["Структура графа — 5"]
-    GT --> G2["BFS — 4"]
-    GT --> G3["DFS — 4"]
-    GT --> G4["IsReachable — 4"]
-    GT --> G5["Components — 4"]
-    GT --> G6["Dijkstra — 9"]
-    GT --> G7["Articulation — 5"]
-    GT --> G8["PrimMST — 5"]
+    GRAPH --> G1["AddVertex / AddEdge\nGetNeighbors / ContainsVertex"]
+    GRAPH --> G2["BFS / DFS\nIsReachable\nGetConnectedComponents"]
+    GRAPH --> G3["Dijkstra\nRestorePath"]
+    GRAPH --> G4["FindArticulationPoints\nалгоритм Тарьяна — O(V+E)"]
+    GRAPH --> G5["PrimMST\nалгоритм Прима — O(V²)"]
+    GRAPH --> G6["LoadFromFile\nзагрузка из .txt"]
 ```
 
 ### Методы класса Graph
